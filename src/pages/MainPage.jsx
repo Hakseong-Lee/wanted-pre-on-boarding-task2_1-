@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { GetAllCarsApi, GetSegmentApi } from '../apis/api';
 import { segmentCategory, segmentType, fuelType } from '../components/segment';
@@ -14,7 +15,7 @@ function MainPage() {
       setCarList(allCarsData.data.payload);
       setIsLoading(false);
     } catch (err) {
-      console.log(err);
+      alert(err);
     }
   };
 
@@ -24,7 +25,7 @@ function MainPage() {
       setCarList(CarsWithSegmentData.data.payload);
       setIsLoading(false);
     } catch (err) {
-      console.log(err);
+      alert(err);
     }
   };
 
@@ -69,22 +70,30 @@ function MainPage() {
           ) : carList.length !== 0 ? (
             carList.map(carInfo => {
               return (
-                <List key={carInfo.id}>
-                  <ListInfoContainer>
-                    <ListInfoTitleContainer>
-                      <ListInfoTitle>{carInfo.attribute.brand}</ListInfoTitle>
-                      <ListInfoTitle>{carInfo.attribute.name}</ListInfoTitle>
-                    </ListInfoTitleContainer>
-                    <ListInfo>
-                      {`${segmentType[carInfo.attribute.segment]} / ${
-                        fuelType[carInfo.attribute.fuelType]
-                      }`}
-                      <br />
-                      {`월 ${commaSeperator(carInfo.amount)} 원 부터`}
-                    </ListInfo>
-                  </ListInfoContainer>
-                  <ListItemImg />
-                </List>
+                <StyledLink
+                  key={carInfo.id}
+                  to="/detail"
+                  state={{ carInfo: carInfo }}
+                >
+                  <List>
+                    <ListInfoContainer>
+                      <ListInfoTitleContainer>
+                        <ListInfoTitle>{carInfo.attribute.brand}</ListInfoTitle>
+                        <ListInfoTitle>{carInfo.attribute.name}</ListInfoTitle>
+                      </ListInfoTitleContainer>
+                      <ListInfo>
+                        {`${segmentType[carInfo.attribute.segment]} / ${
+                          fuelType[carInfo.attribute.fuelType]
+                        }`}
+                        <br />
+                        {`월 ${commaSeperator(carInfo.amount)}원 부터`}
+                      </ListInfo>
+                    </ListInfoContainer>
+                    <ListItemImgContainer>
+                      <ListItemImg src={carInfo.attribute.imageUrl} />
+                    </ListItemImgContainer>
+                  </List>
+                </StyledLink>
               );
             })
           ) : (
@@ -97,8 +106,8 @@ function MainPage() {
 }
 
 const MainSection = styled.section`
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   display: flex;
   justify-content: center;
 `;
@@ -120,8 +129,7 @@ const CategoryContainer = styled.div`
   padding: 0 12px;
   flex-wrap: nowrap;
   overflow-x: auto;
-  border-style: solid;
-  border-width: 1px 0 1px 0;
+  border-bottom: 1px solid;
 `;
 
 const Label = styled.label`
@@ -165,8 +173,6 @@ const CategoryForm = styled.input.attrs({ type: 'radio' })`
 `;
 
 const ListContainer = styled.div`
-  width: 100%;
-  height: 100%;
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
@@ -174,8 +180,6 @@ const ListContainer = styled.div`
 `;
 
 const List = styled.div`
-  width: 100%;
-  height: 120px;
   padding: 25px 21px;
   display: flex;
   border-bottom: 1px solid;
@@ -208,9 +212,15 @@ const ListInfo = styled.h3`
   line-height: 15px;
 `;
 
-const ListItemImg = styled.div`
-  width: 150px;
-  right: 20px;
+const ListItemImgContainer = styled.div`
+  width: 50%;
+  height: 100%;
+  background-color: #d9d9d9;
+`;
+
+const ListItemImg = styled.img`
+  width: 100%;
+  height: 100%;
   background-color: #d9d9d9;
 `;
 
@@ -224,6 +234,19 @@ const Loading = styled.p`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+`;
+
+const StyledLink = styled(Link)`
+  text-decoration: none;
+
+  &:focus,
+  &:hover,
+  &:visited,
+  &:link,
+  &:active {
+    text-decoration: none;
+    color: black;
+  }
 `;
 
 export default MainPage;

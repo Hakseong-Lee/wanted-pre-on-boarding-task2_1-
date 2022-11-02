@@ -12,6 +12,9 @@ const GlobalStyle = createGlobalStyle`
     display:none;
   }
 
+  a{
+    textDecoration: 'none' 
+  }
 
 `;
 

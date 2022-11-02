@@ -1,7 +1,15 @@
-import React from 'react';
+import { React } from 'react';
+import { useLocation } from 'react-router-dom';
 
 function DetailPage() {
-  return <p>hihi</p>;
+  const location = useLocation();
+  const carInfo = location.state.carInfo;
+  console.log(carInfo);
+  return (
+    <>
+      <p>hihi</p>;
+    </>
+  );
 }
 
 export default DetailPage;
