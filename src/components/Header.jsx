@@ -19,6 +19,8 @@ function Header() {
 }
 
 const MainHeader = styled.h1`
+
+  margin 0 auto;
   font-style: normal;
   font-weight: 700;
   font-size: 17px;

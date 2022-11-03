@@ -108,12 +108,13 @@ function MainPage() {
 const MainSection = styled.section`
   width: 100%;
   height: 100%;
+  margin: 0 auto;
   display: flex;
   justify-content: center;
 `;
 
 const MainContainer = styled.article`
-  width: 450px;
+  width: 100%;
   display: flex;
   align-items: center;
   flex-direction: column;
